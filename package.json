@@ -1,0 +1,19 @@
+{
+  "name": "souelle-pajamas-store",
+  "version": "1.0.0",
+  "description": "متجر الكتروني متكامل لـ Souelle Pajamas - بيجامات نسائية وعطور فاخرة",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y serve . -p 3000",
+    "dev": "npx -y serve . -p 3000"
+  },
+  "keywords": [
+    "ecommerce",
+    "algeria",
+    "pajamas",
+    "perfumes",
+    "souelle"
+  ],
+  "author": "Souelle Pajamas",
+  "license": "MIT"
+}

@@ -1,0 +1,432 @@
+/* ========================================================
+   Souelle Pajamas - Admin Dashboard Styling
+   ======================================================== */
+
+/* Shake animation for wrong login */
+@keyframes shake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-8px); }
+  30%  { transform: translateX(8px); }
+  45%  { transform: translateX(-6px); }
+  60%  { transform: translateX(6px); }
+  75%  { transform: translateX(-4px); }
+  90%  { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+
+.admin-body {
+  background: #F8F9FC;
+  color: #2D3748;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* Admin Layout */
+.admin-sidebar {
+  width: 280px;
+  background: #FFFFFF;
+  border-left: 1px solid #E2E8F0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.02);
+}
+
+.admin-brand-header {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  border-bottom: 1px solid #EDF2F7;
+}
+
+.admin-brand-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  object-fit: cover;
+}
+
+.admin-brand-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.admin-nav-menu {
+  padding: 1.25rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex-grow: 1;
+}
+
+.admin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-md);
+  color: #4A5568;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.admin-nav-item:hover {
+  background: var(--primary-light);
+  color: var(--secondary);
+}
+
+.admin-nav-item.active {
+  background: var(--secondary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(138, 40, 70, 0.25);
+}
+
+.admin-nav-item .nav-icon {
+  font-size: 1.25rem;
+}
+
+.admin-sidebar-footer {
+  padding: 1.25rem;
+  border-top: 1px solid #EDF2F7;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.admin-main-content {
+  margin-right: 280px;
+  flex-grow: 1;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.admin-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.admin-page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.admin-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #38A169;
+}
+
+.status-dot.local {
+  background: #DD6B20;
+}
+
+/* Stats Cards */
+.stats-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid #EDF2F7;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #718096;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.stat-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.stat-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--primary-light);
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* Card Container */
+.admin-card {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  border: 1px solid #EDF2F7;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.admin-card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #EDF2F7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.admin-card-body {
+  padding: 1.5rem;
+}
+
+/* Tables */
+.admin-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: right;
+}
+
+.admin-table th {
+  background: #F7FAFC;
+  padding: 0.9rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #4A5568;
+  border-bottom: 2px solid #EDF2F7;
+}
+
+.admin-table td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #EDF2F7;
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background: #FAFCFE;
+}
+
+.table-product-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  border: 1px solid #E2E8F0;
+}
+
+.badge-status {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.badge-status.pending { background: #FEFCBF; color: #744210; }
+.badge-status.confirmed { background: #C6F6D5; color: #22543D; }
+.badge-status.shipped { background: #BEE3F8; color: #2A4365; }
+.badge-status.delivered { background: #D1D5DB; color: #111827; }
+.badge-status.cancelled { background: #FED7D7; color: #742A2A; }
+
+/* Action Buttons */
+.btn-action-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid #E2E8F0;
+  background: #FFFFFF;
+  color: #4A5568;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.btn-action-icon:hover {
+  background: var(--primary-light);
+  color: var(--secondary);
+  border-color: var(--primary);
+}
+
+.btn-action-icon.delete:hover {
+  background: #FED7D7;
+  color: #C53030;
+  border-color: #FEB2B2;
+}
+
+/* Color Palette Customizer */
+.color-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.color-input-card {
+  background: #F7FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.color-input-card label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #2D3748;
+}
+
+.color-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.color-input-row input[type="color"] {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Tabs switcher */
+.admin-tab-pane {
+  display: none;
+}
+
+.admin-tab-pane.active {
+  display: block;
+}
+
+/* Print Invoice Styling */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printableInvoice, #printableInvoice * {
+    visibility: visible;
+  }
+  #printableInvoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    font-family: 'Tajawal', sans-serif;
+  }
+}
+
+/* Responsive Admin */
+@media (max-width: 992px) {
+  .admin-sidebar {
+    transform: translateX(100%);
+    transition: var(--transition);
+  }
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+  .admin-main-content {
+    margin-right: 0;
+    padding: 1rem;
+  }
+  .stats-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .color-picker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .stats-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .color-picker-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+/* Shake Animation for incorrect login */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+/* Hide Netlify Badge & Drawer in Admin */
+netlify-drawer,
+#netlify-drawer,
+.netlify-badge,
+[data-netlify-deploy-id],
+div[class*="netlify-"],
+div[id*="netlify-"],
+div[class*="netlifyBadge"],
+iframe[title*="Netlify"],
+iframe[src*="netlify"],
+[aria-label*="Netlify"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+}

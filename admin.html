@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم الإدارة | Souelle Pajamas</title>
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+  
+  <!-- Supabase JS Client v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <link rel="stylesheet" href="assets/css/style.css?v=3.1">
+  <link rel="stylesheet" href="assets/css/admin.css?v=3.1">
+</head>
+<body class="admin-body">
+
+  <!-- ==================== ADMIN AUTH MODAL (SUPABASE AUTH) ==================== -->
+  <div class="modal-overlay active" id="adminAuthModal">
+    <div class="modal-dialog" style="max-width: 440px; text-align: center;">
+      <div class="modal-body" style="padding: 2.5rem 2rem;">
+        <img src="assets/images/logo.jpg" alt="Logo" style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.25rem; display:block; border: 3px solid var(--primary); box-shadow: 0 4px 18px rgba(232,130,156,.35);">
+        <h3 style="color: var(--secondary); font-size: 1.4rem; font-weight: 800; margin-bottom: 0.3rem;">لوحة إدارة Souelle Pajamas</h3>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.75rem;">الرجاء تسجيل الدخول ببيانات حساب المشرف (Supabase Auth)</p>
+
+        <form onsubmit="handleAdminLoginSubmit(event)" id="adminLoginForm" autocomplete="off">
+          <div class="form-group" style="margin-bottom: 1rem; text-align: right;">
+            <label style="font-size:0.85rem; font-weight:700; color:var(--secondary); display:block; margin-bottom:0.4rem;">📧 البريد الإلكتروني (Email):</label>
+            <input type="email" id="adminEmailInput" class="form-control" placeholder="admin@example.com" style="text-align: right; font-size: 0.98rem;" required autofocus>
+          </div>
+          <div class="form-group" style="margin-bottom: 1.5rem; text-align: right;">
+            <label style="font-size:0.85rem; font-weight:700; color:var(--secondary); display:block; margin-bottom:0.4rem;">🔑 كلمة المرور (Password):</label>
+            <input type="password" id="adminPasswordInput" class="form-control" placeholder="••••••••••" style="text-align: right; font-size: 1rem;" required>
+          </div>
+          <div id="adminLoginError" style="display:none; background:#FFF0F0; border:1px solid #FCA5A5; border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem; color:#B91C1C; font-size:0.88rem; font-weight:700; text-align:right;">
+            ❌ بيانات الدخول غير صحيحة.
+          </div>
+          <button type="submit" id="adminLoginBtn" class="btn-primary" style="width: 100%; justify-content: center; font-size:1rem;">
+            <span>تسجيل الدخول (Supabase)</span> 🔐
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-brand-header">
+      <img src="assets/images/logo.jpg" alt="Logo" class="admin-brand-logo" id="adminSidebarLogo">
+      <div>
+        <div class="admin-brand-title">Souelle Pajamas</div>
+        <div style="font-size: 0.78rem; color: #718096;" id="adminUserBadge">لوحة الإدارة السحابية</div>
+      </div>
+    </div>
+
+    <nav class="admin-nav-menu">
+      <div class="admin-nav-item active" data-tab="tab-overview">
+        <span class="nav-icon">📊</span>
+        <span>نظرة عامة وإحصائيات</span>
+      </div>
+      <div class="admin-nav-item" data-tab="tab-products">
+        <span class="nav-icon">👚</span>
+        <span>إدارة المنتجات</span>
+      </div>
+      <div class="admin-nav-item" data-tab="tab-categories">
+        <span class="nav-icon">🏷️</span>
+        <span>إدارة الأقسام (Categories)</span>
+      </div>
+      <div class="admin-nav-item" data-tab="tab-orders">
+        <span class="nav-icon">📦</span>
+        <span>إدارة الطلبات</span>
+      </div>
+      <div class="admin-nav-item" data-tab="tab-delivery">
+        <span class="nav-icon">🚚</span>
+        <span>أسعار التوصيل (58 ولاية)</span>
+      </div>
+      <div class="admin-nav-item" data-tab="tab-ui-customizer">
+        <span class="nav-icon">✨</span>
+        <span>التحكم في واجهة المتجر</span>
+      </div>
+      <div class="admin-nav-item" data-tab="tab-branding">
+        <span class="nav-icon">🎨</span>
+        <span>الهيرو والألوان واللوغو</span>
+      </div>
+      <div class="admin-nav-item" data-tab="tab-supabase">
+        <span class="nav-icon">☁️</span>
+        <span>حالة Supabase والتعليمات</span>
+      </div>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+      <a href="index.html" class="btn-secondary" style="font-size: 0.9rem; padding: 0.7rem; justify-content: center; font-weight:700;">
+        <span>العودة إلى المتجر</span> 🌐
+      </a>
+      <button type="button" class="btn-secondary" style="width:100%; padding: 0.7rem; justify-content: center; color: #E53E3E; border-color: #FEB2B2; font-weight:700;" onclick="adminLogout()">
+        <span>تسجيل الخروج</span> 🚪
+      </button>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main class="admin-main-content">
+    
+    <!-- Topbar -->
+    <div class="admin-topbar">
+      <div>
+        <h1 class="admin-page-title" id="pageTitleDisplay">لوحة التحكم</h1>
+        <p style="color: #718096; font-size: 0.9rem; margin-top: 0.2rem;" id="adminSubheadDisplay">متصل مباشرة مع Supabase Backend</p>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+        <div class="admin-status-pill" id="supabaseStatusPill" style="background:#ECFDF5; color:#065F46; border:1px solid #A7F3D0;">
+          <span class="status-dot" style="background:#10B981;"></span> سحابة Supabase متصلة
+        </div>
+        <a href="index.html" target="_blank" class="btn-secondary" style="font-size: 0.85rem; padding: 0.55rem 0.9rem; font-weight: 700;">
+          <span>زيارة المتجر</span> 🌐
+        </a>
+        <button type="button" class="btn-secondary" onclick="adminLogout()" style="font-size: 0.85rem; padding: 0.55rem 0.9rem; color: #E53E3E; border-color: #FEB2B2; font-weight: 700;">
+          <span>خروج</span> 🚪
+        </button>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 1: OVERVIEW ==================== -->
+    <div class="admin-tab-pane active" id="tab-overview">
+      <div class="stats-cards-grid">
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">إجمالي المبيعات (المؤكدة)</div>
+            <div class="stat-value" id="statsTotalRevenue">0 د.ج</div>
+            <span class="stat-trend" style="color:#27AE60;">من قاعدة بيانات Supabase</span>
+          </div>
+          <div class="stat-icon-wrap">💰</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">عدد الطلبات الإجمالي</div>
+            <div class="stat-value" id="statsTotalOrders">0</div>
+            <span class="stat-trend" id="statsPendingOrders">0 قيد الانتظار</span>
+          </div>
+          <div class="stat-icon-wrap">📦</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">المنتجات في المتجر</div>
+            <div class="stat-value" id="statsTotalProducts">0</div>
+            <span class="stat-trend">جدول products</span>
+          </div>
+          <div class="stat-icon-wrap">👚</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div class="stat-label">الأقسام والولايات</div>
+            <div class="stat-value" id="statsTotalCategories">0 أقسام</div>
+            <span class="stat-trend" id="statsWilayasStatus">58 ولاية مسجلة</span>
+          </div>
+          <div class="stat-icon-wrap">🏷️</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Strip -->
+      <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.75rem;">
+        <button type="button" class="btn-primary" onclick="openAddProductModal()">
+          <span>إضافة منتج جديد لـ Supabase</span> ➕
+        </button>
+        <button type="button" class="btn-secondary" onclick="openAddCategoryModal()">
+          <span>إضافة قسم جديد</span> 🏷️
+        </button>
+        <button type="button" class="btn-secondary" onclick="seed58WilayasAction()">
+          <span>🌱 زرع أسعار التوصيل لـ 58 ولاية</span> 🚚
+        </button>
+      </div>
+
+      <!-- Recent Orders Table -->
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">آخر الطلبات المسجلة في Supabase</h3>
+          <button type="button" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 0.9rem;" onclick="document.querySelector('[data-tab=tab-orders]').click()">
+            <span>عرض كل الطلبات</span> ➔
+          </button>
+        </div>
+        <div class="admin-table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>اسم الزبونة</th>
+                <th>الهاتف</th>
+                <th>الولاية والبلدية</th>
+                <th>المبلغ الكلي</th>
+                <th>الحالة</th>
+                <th>التاريخ</th>
+                <th>معاينة</th>
+              </tr>
+            </thead>
+            <tbody id="recentOrdersTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: PRODUCTS ==================== -->
+    <div class="admin-tab-pane" id="tab-products">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h3 class="admin-card-title">إدارة المنتجات (جدول products)</h3>
+            <span style="font-size: 0.85rem; color: #718096;">يتم جلب وحفظ كافة المنتجات مباشرة من وإلى Supabase (مع رفع الصور إلى bucket: products)</span>
+          </div>
+          <button type="button" class="btn-primary" onclick="openAddProductModal()">
+            <span>إضافة منتج جديد</span> ➕
+          </button>
+        </div>
+
+        <div style="padding: 1rem 1.5rem; background:#F8FAFC; border-bottom:1px solid #EDF2F7; display:flex; gap:1rem; align-items:center;">
+          <input type="text" id="adminProductSearchInput" placeholder="بحث باسم المنتج أو الوصف..." class="form-control" style="max-width:320px;" oninput="filterAdminProducts(this.value)">
+          <select id="adminProductCategoryFilter" class="form-control" style="max-width:200px;" onchange="filterAdminProductsByCategory(this.value)">
+            <option value="all">جميع الأقسام</option>
+          </select>
+        </div>
+
+        <div class="admin-table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>الصورة</th>
+                <th>اسم المنتج</th>
+                <th>القسم</th>
+                <th>السعر</th>
+                <th>المقاسات</th>
+                <th>الألوان</th>
+                <th>تاريخ الإضافة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminProductsTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: CATEGORIES ==================== -->
+    <div class="admin-tab-pane" id="tab-categories">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h3 class="admin-card-title">إدارة الأقسام والتصنيفات (جدول categories)</h3>
+            <span style="font-size: 0.85rem; color: #718096;">الأقسام التي تظهر في المتجر وتصنف البيجامات والعطور وأطقم العرائس</span>
+          </div>
+          <button type="button" class="btn-primary" onclick="openAddCategoryModal()">
+            <span>إضافة قسم جديد</span> ➕
+          </button>
+        </div>
+
+        <div class="admin-table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>معرف القسم (UUID)</th>
+                <th>اسم القسم</th>
+                <th>تاريخ الإنشاء</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminCategoriesTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: ORDERS ==================== -->
+    <div class="admin-tab-pane" id="tab-orders">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h3 class="admin-card-title">إدارة وتتبع الطلبات (جدول orders)</h3>
+            <span style="font-size: 0.85rem; color: #718096;">تغيير حالة الطلب فورياً، التواصل عبر الواتساب أو طباعة وصل الطلبية</span>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; flex-wrap:wrap;">
+            <button type="button" class="btn-secondary order-filter-btn active" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;" onclick="filterAdminOrders('all', this)">الكل</button>
+            <button type="button" class="btn-secondary order-filter-btn" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;" onclick="filterAdminOrders('جديد', this)">جديد</button>
+            <button type="button" class="btn-secondary order-filter-btn" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;" onclick="filterAdminOrders('مؤكد', this)">مؤكد</button>
+            <button type="button" class="btn-secondary order-filter-btn" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;" onclick="filterAdminOrders('قيد الشحن', this)">قيد الشحن</button>
+            <button type="button" class="btn-secondary order-filter-btn" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;" onclick="filterAdminOrders('تم التوصيل', this)">تم التوصيل</button>
+            <button type="button" class="btn-secondary order-filter-btn" style="padding: 0.4rem 0.8rem; font-size: 0.82rem;" onclick="filterAdminOrders('ملغى', this)">ملغى</button>
+          </div>
+        </div>
+
+        <div style="padding: 1rem 1.5rem; background:#F8FAFC; border-bottom:1px solid #EDF2F7;">
+          <input type="text" id="adminOrderSearchInput" placeholder="بحث باسم الزبونة، رقم الهاتف، أو الولاية..." class="form-control" style="max-width:350px;" oninput="searchAdminOrders(this.value)">
+        </div>
+
+        <div class="admin-table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>اسم الزبونة</th>
+                <th>الهاتف</th>
+                <th>الولاية والبلدية</th>
+                <th>المنتجات المطلوبة</th>
+                <th>المجموع الكلي</th>
+                <th>الحالة</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="adminOrdersTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 5: DELIVERY RATES ==================== -->
+    <div class="admin-tab-pane" id="tab-delivery">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <div>
+            <h3 class="admin-card-title">أسعار التوصيل لـ 58 ولاية (جدول delivery_prices)</h3>
+            <span style="font-size: 0.85rem; color: #718096;">تعديل أسعار التوصيل للمنزل والمكتب مباشرة في Supabase</span>
+          </div>
+          <button type="button" class="btn-primary" onclick="seed58WilayasAction()" style="background:#059669; border-color:#059669;">
+            <span>🌱 زرع وتحديث 58 ولاية في Supabase</span> 🚚
+          </button>
+        </div>
+
+        <div style="padding: 1rem 1.5rem; background:#F8FAFC; border-bottom:1px solid #EDF2F7; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+          <input type="text" id="adminDeliverySearchInput" placeholder="بحث بالاسم أو رقم الولاية..." class="form-control" style="max-width:300px;" oninput="filterDeliveryTable(this.value)">
+          <span style="font-size:0.85rem; color:#4A5568;">💡 يمكنكِ تعديل السعر والضغط على زر "حفظ" لحفظه في Supabase فوراً.</span>
+        </div>
+
+        <div class="admin-table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>رقم الولاية</th>
+                <th>اسم الولاية</th>
+                <th>سعر التوصيل للمنزل (د.ج)</th>
+                <th>سعر التوصيل للمكتب (د.ج)</th>
+                <th>حفظ التعديل</th>
+              </tr>
+            </thead>
+            <tbody id="deliveryRatesTableBody">
+              <!-- Rendered via admin.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 6: UI CUSTOMIZER ==================== -->
+    <div class="admin-tab-pane" id="tab-ui-customizer">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">نصوص وعناوين أقسام المتجر</h3>
+        </div>
+        <div class="admin-card-body">
+          <form onsubmit="saveSectionHeadings(event)">
+            <h4 style="color:var(--secondary); margin-bottom: 0.75rem; border-bottom: 1px solid #edf2f7; padding-bottom: 0.4rem;">شريط الإعلانات العلوي (Top Announcement Bar):</h4>
+            <div class="form-row" style="margin-bottom: 1.5rem;">
+              <div class="form-group">
+                <label class="form-label">نص الإعلان العلوي:</label>
+                <input type="text" id="customTopbarText" class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="form-label">تسمية خدمة الزبائن بالواتساب:</label>
+                <input type="text" id="customTopbarWaLabel" class="form-control">
+              </div>
+            </div>
+
+            <h4 style="color:var(--secondary); margin-bottom: 0.75rem; border-bottom: 1px solid #edf2f7; padding-bottom: 0.4rem;">قسم المنتجات:</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">الشارة العلوية (Badge):</label>
+                <input type="text" id="customProductsBadge" class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="form-label">العنوان الرئيسي:</label>
+                <input type="text" id="customProductsTitle" class="form-control">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+              <label class="form-label">الوصف الفرعي:</label>
+              <input type="text" id="customProductsSubtitle" class="form-control">
+            </div>
+
+            <button type="submit" class="btn-primary" style="padding: 0.8rem 2rem;">
+              <span>حفظ التعديلات في Supabase</span> 💾
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 7: BRANDING, HERO & THEME COLORS ==================== -->
+    <div class="admin-tab-pane" id="tab-branding">
+      <form onsubmit="saveBrandingAndThemeSettings(event)">
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">هوية المتجر، الهيرو وروابط التواصل</h3>
+          </div>
+          <div class="admin-card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">اسم المتجر:</label>
+                <input type="text" id="settingsStoreName" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">الشعار اللفظي (Slogan):</label>
+                <input type="text" id="settingsStoreTagline" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">رقم هاتف الواتساب (بالصيغة الدولية مثل +213557857717):</label>
+                <input type="text" id="settingsWhatsappNum" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">رقم الواتساب المعروض للزبونة (مثال 0557 85 77 17):</label>
+                <input type="text" id="settingsWhatsappDisplay" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">حساب الإنستغرام (مثال souelle_pajamas):</label>
+                <input type="text" id="settingsInstagramHandle" class="form-control">
+              </div>
+              <div class="form-group">
+                <label class="form-label">شارة الهيرو (Hero Badge):</label>
+                <input type="text" id="settingsHeroBadge" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">العنوان الرئيسي للهيرو (Hero Title):</label>
+              <input type="text" id="settingsHeroTitle" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">الوصف الفرعي للهيرو:</label>
+              <textarea id="settingsHeroSubtitle" class="form-control" rows="3" required></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Color Palette Customizer -->
+        <div class="admin-card">
+          <div class="admin-card-header">
+            <h3 class="admin-card-title">تخصيص ألوان المتجر</h3>
+          </div>
+          <div class="admin-card-body">
+            <div class="color-picker-grid">
+              <div class="color-input-card">
+                <label>اللون الأساسي (Primary Rose):</label>
+                <div class="color-input-row">
+                  <input type="color" id="colorPickerPrimary" value="#E8829C">
+                  <span id="colorPickerPrimaryText" style="font-weight: 700;">#E8829C</span>
+                </div>
+              </div>
+
+              <div class="color-input-card">
+                <label>اللون الثانوي (Burgundy / العنابي):</label>
+                <div class="color-input-row">
+                  <input type="color" id="colorPickerSecondary" value="#8A2846">
+                  <span id="colorPickerSecondaryText" style="font-weight: 700;">#8A2846</span>
+                </div>
+              </div>
+
+              <div class="color-input-card">
+                <label>لون التمييز (Champagne Gold / الذهبي):</label>
+                <div class="color-input-row">
+                  <input type="color" id="colorPickerAccent" value="#D4AF37">
+                  <span id="colorPickerAccentText" style="font-weight: 700;">#D4AF37</span>
+                </div>
+              </div>
+
+              <div class="color-input-card">
+                <label>لون خلفية المتجر (Background):</label>
+                <div class="color-input-row">
+                  <input type="color" id="colorPickerBg" value="#FFF9FA">
+                  <span id="colorPickerBgText" style="font-weight: 700;">#FFF9FA</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+              <button type="submit" class="btn-primary" style="padding: 0.9rem 2.5rem; font-size: 1.1rem;">
+                <span>حفظ التعديلات في Supabase</span> 💾✨
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ==================== TAB 8: SUPABASE STATUS & SQL ==================== -->
+    <div class="admin-tab-pane" id="tab-supabase">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <h3 class="admin-card-title">معلومات وتفاصيل الربط مع Supabase Backend</h3>
+        </div>
+        <div class="admin-card-body">
+          <div style="background:#F0FDF4; border:1px solid #BBF7D0; border-radius:var(--radius-md); padding:1.25rem; margin-bottom:1.5rem;">
+            <h4 style="color:#166534; margin-bottom:0.4rem;">✅ تم ربط المتجر بنجاح عبر config.js</h4>
+            <p style="color:#15803D; font-size:0.9rem; line-height:1.7;">
+              المتجر ولوحة التحكم يستخدمان ملف الإعداد الموحد <code style="background:#DCFCE7; padding:2px 6px; border-radius:4px;">assets/js/config.js</code> ويتم الاتصال مباشرة بقاعدة بيانات Supabase وبلا سيرفر وسيط.
+            </p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">SUPABASE_URL:</label>
+              <input type="text" class="form-control" value="https://bypkpgzvwyrxukrdsyfw.supabase.co" readonly style="background:#F1F5F9; font-family:monospace;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Storage Bucket:</label>
+              <input type="text" class="form-control" value="products (public)" readonly style="background:#F1F5F9;">
+            </div>
+          </div>
+
+          <div style="margin-top:1.5rem; background:#FFF9FA; border:1px solid var(--border-color); border-radius:var(--radius-md); padding:1.5rem;">
+            <h4 style="color:var(--secondary); margin-bottom:0.5rem;">سياسات الأمان وقواعد RLS:</h4>
+            <p style="font-size:0.9rem; color:#4A5568; line-height:1.7; margin-bottom:1rem;">
+              إذا أردتِ التحقق من سياسات RLS أو تفعيل صلاحيات الزوار لإضافة الطلبات وتصفح المنتجات في Supabase، يمكنكِ نسخ ملف SQL الكامل:
+            </p>
+            <button type="button" class="btn-secondary" onclick="copySqlSchema()">
+              <span>نسخ كود SQL الكامل (Schema + RLS Policies) 📋</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== PRODUCT ADD / EDIT MODAL ==================== -->
+  <div class="modal-overlay" id="productModal" onclick="if(event.target === this) closeModal('productModal')">
+    <div class="modal-dialog" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="productModalTitle">إضافة منتج جديد</h3>
+        <button class="modal-close-btn" type="button" onclick="closeModal('productModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="productForm" onsubmit="handleProductFormSubmit(event)">
+          <input type="hidden" id="productIdInput">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">اسم المنتج *:</label>
+              <input type="text" id="productNameInput" class="form-control" placeholder="مثال: طقم بيجاما حرير ساتان" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">القسم (Category) *:</label>
+              <select id="productCategorySelect" class="form-control" required>
+                <!-- Populated dynamically from categories table -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">السعر الحالي (د.ج) *:</label>
+              <input type="number" id="productPriceInput" class="form-control" placeholder="4900" required min="0">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">المقاسات المتاحة (مفصولة بفاصلة):</label>
+              <input type="text" id="productSizesInput" class="form-control" placeholder="S, M, L, XL, XXL">
+              <div style="display:flex; gap:0.4rem; margin-top:0.4rem; flex-wrap:wrap;">
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductSize('S')">+S</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductSize('M')">+M</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductSize('L')">+L</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductSize('XL')">+XL</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductSize('XXL')">+XXL</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductSize('Free Size')">+Free Size</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductSize('100ml')">+100ml</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">الألوان المتوفرة (مفصولة بفاصلة):</label>
+              <input type="text" id="productColorsInput" class="form-control" placeholder="وردي بودري, شمباني, أسود ملكي">
+              <div style="display:flex; gap:0.4rem; margin-top:0.4rem; flex-wrap:wrap;">
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductColor('وردي بودري')">+وردي بودري</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductColor('شمباني')">+شمباني</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductColor('أسود ملكي')">+أسود ملكي</button>
+                <button type="button" class="btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.75rem;" onclick="appendProductColor('أبيض عاجي')">+أبيض عاجي</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">صورة المنتج (رفع إلى Supabase Storage Bucket: products):</label>
+            <div style="display:flex; align-items:center; gap:1.25rem; flex-wrap:wrap; margin-bottom:0.75rem;">
+              <img src="assets/images/logo.jpg" id="productImagePreview" style="width:75px; height:75px; object-fit:cover; border-radius: var(--radius-sm); border:1px solid #ddd;">
+              <div>
+                <input type="file" id="productFileInput" accept="image/*" onchange="previewSelectedProductImage(this)" style="display:none;">
+                <button type="button" class="btn-secondary" style="font-size:0.88rem;" onclick="document.getElementById('productFileInput').click()">
+                  <span>اختيار صورة ورفعها لـ Supabase</span> 📤
+                </button>
+                <span id="productFileUploadStatus" style="display:block; font-size:0.8rem; color:#64748B; margin-top:0.3rem;"></span>
+              </div>
+            </div>
+            <div>
+              <label style="font-size:0.82rem; color:#64748B; display:block; margin-bottom:0.3rem;">أو إدخال رابط الصورة مباشرة (URL):</label>
+              <input type="url" id="productImageUrlInput" class="form-control" placeholder="https://..." oninput="document.getElementById('productImagePreview').src = this.value || 'assets/images/logo.jpg'">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">وصف تفصيلي للمنتج:</label>
+            <textarea id="productDescriptionInput" class="form-control" rows="3" placeholder="نوع القماش، النعومة، المقاسات، طريقة العناية..."></textarea>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+            <button type="button" class="btn-secondary" onclick="closeModal('productModal')">إلغاء</button>
+            <button type="submit" id="saveProductBtn" class="btn-primary">
+              <span>حفظ المنتج في Supabase</span> 💾
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: ADD / EDIT CATEGORY ==================== -->
+  <div class="modal-overlay" id="categoryModal" onclick="if(event.target === this) closeModal('categoryModal')">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="categoryModalTitle">إضافة قسم جديد</h3>
+        <button class="modal-close-btn" type="button" onclick="closeModal('categoryModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleCategoryFormSubmit(event)">
+          <input type="hidden" id="categoryEditId">
+          <div class="form-group">
+            <label class="form-label">اسم القسم *:</label>
+            <input type="text" id="categoryNameInput" class="form-control" placeholder="مثال: بيجامات نوم فاخرة أو عطور نسائية" required autofocus>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+            <button type="button" class="btn-secondary" onclick="closeModal('categoryModal')">إلغاء</button>
+            <button type="submit" id="saveCategoryBtn" class="btn-primary">
+              <span>حفظ القسم</span> 💾
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: ORDER DETAILS ==================== -->
+  <div class="modal-overlay" id="orderDetailsModal" onclick="if(event.target === this) closeModal('orderDetailsModal')">
+    <div class="modal-dialog" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">تفاصيل الطلبية</h3>
+        <button class="modal-close-btn" type="button" onclick="closeModal('orderDetailsModal')">✕</button>
+      </div>
+      <div class="modal-body" id="orderDetailsBody">
+        <!-- Rendered via admin.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Container for Printable Invoices -->
+  <div id="printableInvoice" style="display:none;"></div>
+
+  <!-- Scripts -->
+  <script src="assets/js/wilayas.js?v=3.1"></script>
+  <script src="assets/js/config.js?v=3.1"></script>
+  <script src="assets/js/db.js?v=3.1"></script>
+  <script src="assets/js/admin.js?v=3.1"></script>
+</body>
+</html>

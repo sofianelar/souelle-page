@@ -1,0 +1,5 @@
+# Netlify redirects file
+/admin       /admin.html       200
+/admin/      /admin.html       200
+/delivery    /delivery.html    200
+/delivery/   /delivery.html    200

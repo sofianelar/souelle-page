@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Souelle Pajamas | متجر بيجامات النوم الفاخرة والعطور النسائية</title>
+  <meta name="description" content="Souelle Pajamas - أرقى تشكيلات بيجامات النوم الفاخرة، الساتان والحرير، وأفخم العطور النسائية. توصيل سريع لـ 58 ولاية والدفع عند الاستلام.">
+  <meta name="keywords" content="بيجامات نسائية, بيجامات حرير, عطور نسائية, ملابس نوم الجزائر, Souelle Pajamas, جهاز العروسة الجزائر">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Souelle Pajamas | بيجامات نوم فاخرة وعطور">
+  <meta property="og:description" content="نعومة • أناقة • أنوثة | تشكيلة البيجامات الحريرية والعطور الفاخرة">
+  <meta property="og:image" content="assets/images/logo.jpg">
+  
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/style.css?v=3.0">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="topbar">
+    <div class="container">
+      <div class="topbar-msg">
+        <span class="pulse-dot"></span>
+        <span id="topbarText">🚚 التوصيل متوفر لجميع الولايات (58 ولاية) • الدفع عند الاستلام مع إمكانية المعاينة قبل الدفع ✨</span>
+      </div>
+      <div class="topbar-contact">
+        <a href="https://wa.me/213557857717" target="_blank" class="topbar-link whatsapp-link-btn">
+          <span id="topbarWhatsappLabel">💬 خدمة الزبائن (واتساب):</span>
+          <strong class="whatsapp-display-num">0557 85 77 17</strong>
+        </a>
+        <a href="https://instagram.com/souelle_pajamas" target="_blank" class="topbar-link instagram-link-btn">
+          <span>📸 @souelle_pajamas</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="header-main">
+    <div class="container">
+      <div class="nav-wrap">
+        <!-- Brand Logo -->
+        <a href="index.html" class="brand-logo-wrap">
+          <img src="assets/images/logo.jpg" alt="Souelle Pajamas" class="brand-logo-img">
+          <div class="brand-text-col">
+            <span class="brand-name brand-name-text">Souelle Pajamas</span>
+            <span class="brand-tagline brand-tagline-text">نعومة • أناقة • أنوثة</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links (Dynamically Rendered from Settings) -->
+        <nav>
+          <ul class="nav-links" id="mainNavLinks">
+            <!-- Populated via app.js -->
+          </ul>
+        </nav>
+
+        <!-- Navigation Actions (Search, Cart, Admin) -->
+        <div class="nav-actions">
+          <!-- Search toggle / box -->
+          <div style="position: relative; display: inline-block;">
+            <input type="text" id="storeSearchInput" placeholder="ابحثي عن بيجاما أو عطر..." class="form-control" style="width: 220px; padding: 0.5rem 1rem; border-radius: var(--radius-full); font-size: 0.85rem; display: none;">
+          </div>
+          
+          <button class="nav-btn-icon" type="button" title="بحث" onclick="toggleSearchInput()">
+            🔍
+          </button>
+
+          <!-- Cart Button with dynamic counter -->
+          <button class="nav-btn-icon" type="button" title="سلة المشتريات" onclick="openCartDrawer()">
+            🛍️
+            <span class="badge-count cart-count-badge" style="display:none;">0</span>
+          </button>
+
+          <!-- Admin panel link removed (access admin.html directly) -->
+
+          <!-- Mobile Hamburger -->
+          <button class="mobile-nav-toggle" type="button" onclick="toggleMobileMenu()">
+            ☰
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Menu -->
+  <div id="mobileMenu" style="display:none; background:#fff; border-bottom:1px solid var(--border-color); padding: 1.25rem; text-align: center;">
+    <ul id="mobileNavLinks" style="list-style:none; display:flex; flex-direction:column; gap:1rem; font-weight:700;">
+      <!-- Populated via app.js -->
+    </ul>
+  </div>
+
+  <main>
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Text Content -->
+          <div class="hero-content">
+            <div class="hero-badge-pill" id="heroBadge">
+              ✨ التشكيلة الحصرية 2026
+            </div>
+            
+            <h1 class="hero-title" id="heroTitle">
+              نعومة فائقة وأناقة <span>تليق بأنوثتك</span>
+            </h1>
+
+            <p class="hero-subtitle" id="heroSubtitle">
+              اكتشفي أرقى تشكيلات بيجامات النوم الفاخرة والعطور الساحرة المصممة خصيصاً للمرأة العصرية الأنيقة. أقمشة حريرية ناعمة وعطور تلامس الروح مع توصيل سريع لباب منزلك.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#productsSection" class="btn-primary" id="heroCtaPrimary" onclick="filterStoreCategory('pajamas')">
+                <span>تسوّقي البيجامات الآن</span> ✨
+              </a>
+              <a href="#productsSection" class="btn-secondary" id="heroCtaSecondary" onclick="filterStoreCategory('perfumes')">
+                <span>اكتشفي العطور</span> 🌸
+              </a>
+              <a href="https://wa.me/213557857717" target="_blank" class="btn-whatsapp-hero whatsapp-link-btn" id="heroCtaWhatsapp">
+                <span>طلب سريع عبر واتساب</span> 💬
+              </a>
+            </div>
+          </div>
+
+          <!-- Hero Image & Floating Tag -->
+          <div class="hero-media-wrapper">
+            <div class="hero-main-card">
+              <img src="assets/images/hero-banner.jpg" alt="تشكيلة Souelle Pajamas" id="heroBannerImg" class="hero-banner-img">
+              <div class="hero-floating-tag">
+                <span class="floating-tag-icon">🎀</span>
+                <div class="floating-tag-text">
+                  <strong>ملابس نوم فاخرة وعطور</strong>
+                  <span>جودة مضمونة • فخامة لا تُضاهى</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FEATURES STRIP ==================== -->
+    <section class="features-strip">
+      <div class="container">
+        <div class="features-grid" id="featuresGrid">
+          <!-- Populated via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== PRODUCTS CATALOG SECTION ==================== -->
+    <section class="categories-section" id="productsSection">
+      <div class="container">
+        <div class="section-head-center">
+          <span class="section-badge" id="productsSectionBadge">🎀 أرقى الموديلات</span>
+          <h2 class="section-title" id="productsSectionTitle">التشكيلة المختارة لكِ</h2>
+          <p class="section-subtitle" id="productsSectionSubtitle">بيجامات نوم راقية، أطقم عرائس وعطور تمنحك شعوراً استثنائياً بالدلال</p>
+        </div>
+
+        <!-- Filter Buttons (Dynamically Rendered from Settings Categories) -->
+        <div class="filter-pills" id="categoryFilterPills">
+          <!-- Populated via app.js -->
+        </div>
+
+        <!-- Dynamic Products Grid -->
+        <div class="products-grid" id="productsGrid">
+          <!-- Injected dynamically via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS SECTION ==================== -->
+    <section style="background: var(--primary-light); padding: 4.5rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+      <div class="container">
+        <div class="section-head-center">
+          <span class="section-badge" id="reviewsSectionBadge">⭐ تجارب حقيقية</span>
+          <h2 class="section-title" id="reviewsSectionTitle">ماذا تقول زبوناتنا الوفيات؟</h2>
+          <p class="section-subtitle" id="reviewsSectionSubtitle">أكثر من 1,500 زبونة سعيدة عبر كامل التراب الوطني</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;" id="testimonialsGrid">
+          <!-- Populated via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== DELIVERY HIGHLIGHT BANNER ==================== -->
+    <section style="padding: 4rem 0;">
+      <div class="container">
+        <div class="delivery-banner-card" style="background: linear-gradient(135deg, var(--secondary) 0%, #A33A58 100%); color:#fff; border-radius: var(--radius-xl); padding: 3rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; box-shadow: var(--shadow-lg);">
+          <div style="max-width: 620px;">
+            <span style="background: rgba(255,255,255,0.18); padding: 0.35rem 0.9rem; border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 700; display: inline-block; margin-bottom: 0.8rem;" id="deliveryBannerBadge">
+              🚚 خدمة شحن احترافية
+            </span>
+            <h3 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.8rem;" id="deliveryBannerTitle">نوصلك وين ما كنتِ في الجزائر (58 ولاية)</h3>
+            <p style="opacity: 0.92; line-height: 1.7; font-size: 1.05rem;" id="deliveryBannerDesc">
+              توصيل سريع وموثوق إلى باب منزلك أو استلام من المكتب، مع ضمان المعاينة قبل الدفع لراحة بالك التامة.
+            </p>
+          </div>
+          <div class="delivery-banner-actions" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="https://wa.me/213557857717" target="_blank" class="btn-whatsapp-hero whatsapp-link-btn" style="font-size: 1.05rem;">
+              <span>تأكيد طلبكِ عبر واتساب</span> 💬
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer-main">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: Brand -->
+        <div class="footer-brand">
+          <div style="display:flex; align-items:center; gap:0.75rem;">
+            <img src="assets/images/logo.jpg" alt="Souelle Pajamas" class="brand-logo-img">
+            <div>
+              <h3 style="color:#fff; font-size:1.4rem; font-weight:800;" class="brand-name-text">Souelle Pajamas</h3>
+              <span style="color:var(--primary); font-size:0.8rem;" class="brand-tagline-text">نعومة • أناقة • أنوثة</span>
+            </div>
+          </div>
+          <p>
+            متجركِ المتخصص الأول في بيجامات النوم التركية والحريرية الفاخرة والعطور النسائية الآسرة. صممنا كل قطعة لتعكس أنوثتكِ ورقتكِ في كل لحظة.
+          </p>
+          <div class="footer-social-links">
+            <a href="https://instagram.com/souelle_pajamas" target="_blank" class="social-circle-btn instagram-link-btn" title="Instagram">📸</a>
+            <a href="https://wa.me/213557857717" target="_blank" class="social-circle-btn whatsapp-link-btn" title="WhatsApp">💬</a>
+            <a href="tel:+213557857717" class="social-circle-btn" title="Phone">📞</a>
+          </div>
+        </div>
+
+        <!-- Col 2: Quick Links -->
+        <div class="footer-col">
+          <h4>روابط سريعة</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">الصفحة الرئيسية</a></li>
+            <li><a href="#productsSection" onclick="document.querySelector('[data-filter=pajamas]').click()">بيجامات النوم</a></li>
+            <li><a href="#productsSection" onclick="document.querySelector('[data-filter=perfumes]').click()">العطور الفاخرة</a></li>
+            <li><a href="#productsSection" onclick="document.querySelector('[data-filter=promotions]').click()">عروض التوفير</a></li>
+            <li><a href="delivery.html">أسعار التوصيل (58 ولاية)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Customer Service -->
+        <div class="footer-col">
+          <h4>خدمة الزبائن</h4>
+          <ul class="footer-links-list">
+            <li><a href="delivery.html">سياسة الشحن والتوصيل</a></li>
+            <li><a href="delivery.html#guarantee">المعاينة قبل الدفع</a></li>
+            <li><a href="delivery.html#returns">سياسة الاستبدال والإرجاع</a></li>
+            <li><a href="https://wa.me/213557857717" target="_blank">تتبع طلبيتكِ عبر واتساب</a></li>
+            <li><a href="admin.html">لوحة تحكم الإدارة</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Direct Contact -->
+        <div class="footer-col">
+          <h4>تواصلي معنا</h4>
+          <p style="font-size:0.9rem; color:#B8A8B0; margin-bottom: 0.8rem; line-height: 1.6;">
+            فريق Souelle Pajamas جاهز دائماً للرد على كافة أسئلتكِ وتأكيد طلباتكِ عبر الواتساب والهاتف:
+          </p>
+          <div style="display:flex; flex-direction:column; gap:0.6rem;">
+            <a href="https://wa.me/213557857717" target="_blank" style="color:#25D366; font-weight:700; display:flex; align-items:center; gap:0.5rem;">
+              <span>💬 واتساب:</span> <span class="whatsapp-display-num">0557 85 77 17</span>
+            </a>
+            <a href="tel:+213557857717" style="color:#fff; display:flex; align-items:center; gap:0.5rem;">
+              <span>📞 هاتف:</span> <span class="whatsapp-display-num">+213 557 85 77 17</span>
+            </a>
+            <a href="https://instagram.com/souelle_pajamas" target="_blank" style="color:var(--primary); display:flex; align-items:center; gap:0.5rem;">
+              <span>📸 انستغرام:</span> <span>@souelle_pajamas</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 جميع الحقوق محفوظة لمتجر <strong>Souelle Pajamas 🎀</strong> | ملابس نوم فاخرة وعطور نسائية</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== FLOATING WHATSAPP BUTTON ==================== -->
+  <a href="https://wa.me/213557857717?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20Souelle%20Pajamas%20%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D8%AA%D8%B4%D9%83%D9%8A%D9%84%D8%A9" target="_blank" class="whatsapp-floating-btn whatsapp-link-btn" title="تحدثي معنا عبر واتساب">
+    <div class="whatsapp-pulse-ring"></div>
+    <span>💬</span>
+  </a>
+
+  <!-- ==================== PRODUCT DETAIL MODAL ==================== -->
+  <div class="modal-overlay" id="productDetailModal" onclick="if(event.target === this) closeModal('productDetailModal')">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">تفاصيل المنتج</h3>
+        <button class="modal-close-btn" type="button" onclick="closeModal('productDetailModal')">✕</button>
+      </div>
+      <div class="modal-body" id="productDetailContent">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FAST ORDER (DIRECT CASH ON DELIVERY) MODAL ==================== -->
+  <div class="modal-overlay" id="quickOrderModal" onclick="if(event.target === this) closeModal('quickOrderModal')">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">طلب سريع (الدفع عند الاستلام) ⚡</h3>
+        <button class="modal-close-btn" type="button" onclick="closeModal('quickOrderModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="quickOrderProductInfo"></div>
+
+        <form onsubmit="handleQuickOrderSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">المقاس / الحجم:</label>
+              <select id="quickOrderSize" class="form-control"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">اللون:</label>
+              <select id="quickOrderColor" class="form-control"></select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">الاسم واللقب *:</label>
+              <input type="text" id="quickOrderName" class="form-control" placeholder="مثال: أمينة بوقرة" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم الهاتف *:</label>
+              <input type="tel" id="quickOrderPhone" class="form-control" placeholder="05 / 06 / 07 XX XX XX" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">الولاية (58 ولاية) *:</label>
+              <select id="quickOrderWilaya" class="form-control wilaya-select" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">البلدية *:</label>
+              <input type="text" id="quickOrderCommune" class="form-control" placeholder="اسم البلدية" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">العنوان بالتفصيل (اختياري):</label>
+            <input type="text" id="quickOrderAddress" class="form-control" placeholder="الحي، رقم العمارة أو الشارع...">
+          </div>
+
+          <div class="form-group" style="display:flex; justify-content:space-between; align-items:center;">
+            <label class="form-label" style="margin:0;">الكمية:</label>
+            <input type="number" id="quickOrderQty" class="form-control" value="1" min="1" max="10" style="width: 90px; text-align:center;" onchange="calculateQuickOrderTotal()">
+          </div>
+
+          <!-- Price calculation box -->
+          <div style="background:var(--bg-main); border:1px solid var(--border-color); border-radius: var(--radius-md); padding:1rem; margin: 1.25rem 0;">
+            <div style="display:flex; justify-content:space-between; font-size:0.9rem; margin-bottom:0.4rem;">
+              <span>سعر التوصيل:</span>
+              <strong id="quickOrderDeliveryFee" style="color:var(--secondary);">حددي الولاية</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:1.15rem; font-weight:800; color:var(--secondary); border-top:1px dashed var(--border-color); padding-top:0.6rem;">
+              <span>المجموع الكلي:</span>
+              <span id="quickOrderTotal">0 د.ج</span>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:0.75rem;">
+            <button type="submit" class="btn-primary" style="width:100%;">
+              <span>تأكيد الطلب الآن (الدفع عند الاستلام)</span> 🚚
+            </button>
+            <button type="button" class="btn-whatsapp-hero" style="width:100%;" onclick="sendProductWhatsapp(activeProductForModal ? activeProductForModal.id : '')">
+              <span>أو إرسال الطلب مباشرة بالواتساب</span> 💬
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ORDER SUCCESS CONFIRMATION MODAL ==================== -->
+  <div class="modal-overlay" id="orderSuccessModal">
+    <div class="modal-dialog" style="max-width: 520px; text-align: center;">
+      <div class="modal-body" style="padding: 2.5rem 1.75rem;">
+        <span style="font-size: 3.5rem; display:block; margin-bottom: 1rem;">🎉</span>
+        <h3 style="color: var(--secondary); font-size: 1.55rem; font-weight: 800; margin-bottom: 0.5rem;">تم تسجيل طلبكِ بنجاح!</h3>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
+          شكراً لاختياركِ <strong>Souelle Pajamas</strong>. رقم طلبكِ هو: <strong id="successOrderRef" style="color:var(--primary); font-size:1.1rem;"></strong>
+        </p>
+
+        <div id="successOrderSummary" style="background:var(--bg-main); border:1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; text-align: right; margin-bottom: 1.5rem;"></div>
+
+        <p style="font-size: 0.88rem; color: #666; margin-bottom: 1.5rem;">
+          سيتصل بكِ فريقنا هاتفياً خلال ساعات لتأكيد شحن الطلبية إلى عنوانكِ.
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:0.75rem;">
+          <button type="button" id="successWhatsappBtn" class="btn-whatsapp-hero" style="width:100%;">
+            <span>إرسال تأكيد سريع عبر واتساب للتعجيل بالشحن</span> ⚡💬
+          </button>
+          <button type="button" class="btn-secondary" style="width:100%;" onclick="closeModal('orderSuccessModal')">
+            <span>متابعة التسوق في المتجر</span> 🛍️
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== SLIDE-OVER CART DRAWER ==================== -->
+  <div class="cart-drawer-overlay" id="cartDrawerOverlay" onclick="if(event.target === this) closeCartDrawer()">
+    <div class="cart-drawer">
+      <div class="cart-drawer-header">
+        <div style="display:flex; align-items:center; gap:0.6rem;">
+          <span style="font-size:1.3rem;">🛍️</span>
+          <h3 style="font-size:1.2rem; font-weight:800; color:var(--secondary); margin:0;">سلة المشتريات</h3>
+        </div>
+        <button class="modal-close-btn" type="button" onclick="closeCartDrawer()">✕</button>
+      </div>
+
+      <!-- Items List -->
+      <div class="cart-items-list" id="cartDrawerItems">
+        <!-- Rendered via app.js -->
+      </div>
+
+      <!-- Checkout Form inside Drawer -->
+      <div class="cart-drawer-footer">
+        <form onsubmit="handleCartCheckoutSubmit(event)">
+          <div style="border-bottom:1px solid var(--border-color); padding-bottom:1rem; margin-bottom:1rem;">
+            <h4 style="color:var(--secondary); font-size:1rem; margin-bottom:0.75rem;">معلومات التوصيل السريع:</h4>
+            <div class="form-row">
+              <input type="text" id="cartCheckoutName" class="form-control" placeholder="الاسم واللقب *" required style="padding:0.6rem 0.8rem; font-size:0.88rem;">
+              <input type="tel" id="cartCheckoutPhone" class="form-control" placeholder="الهاتف *" required style="padding:0.6rem 0.8rem; font-size:0.88rem;">
+            </div>
+            <div class="form-row" style="margin-top:0.6rem;">
+              <select id="cartCheckoutWilaya" class="form-control wilaya-select" required style="padding:0.6rem 0.8rem; font-size:0.85rem;"></select>
+              <input type="text" id="cartCheckoutCommune" class="form-control" placeholder="البلدية *" required style="padding:0.6rem 0.8rem; font-size:0.88rem;">
+            </div>
+            <div style="margin-top:0.6rem;">
+              <input type="text" id="cartCheckoutAddress" class="form-control" placeholder="العنوان الدقيق (اختياري)" style="padding:0.6rem 0.8rem; font-size:0.88rem;">
+            </div>
+          </div>
+
+          <div class="cart-summary-line">
+            <span>مجموع المنتجات:</span>
+            <strong id="cartDrawerSubtotal">0 د.ج</strong>
+          </div>
+          <div class="cart-summary-line">
+            <span>سعر التوصيل:</span>
+            <strong id="cartDrawerDeliveryFee">حددي الولاية</strong>
+          </div>
+          <div class="cart-summary-line total">
+            <span>المجموع الكلي:</span>
+            <strong id="cartDrawerTotal">0 د.ج</strong>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:0.6rem; margin-top:1rem;">
+            <button type="submit" id="cartDrawerCheckoutBtn" class="btn-primary" style="width:100%;">
+              <span>تأكيد الطلب (الدفع عند الاستلام)</span> 🚚
+            </button>
+            <button type="button" class="btn-card-whatsapp" onclick="sendCartWhatsapp()">
+              <span>أو إرسال سلة المشتريات بالواتساب</span> 💬
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/wilayas.js?v=3.1"></script>
+  <script src="assets/js/config.js?v=3.1"></script>
+  <script src="assets/js/db.js?v=3.1"></script>
+  <script src="assets/js/app.js?v=3.1"></script>
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById("mobileMenu");
+      if (menu) menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function toggleSearchInput() {
+      const input = document.getElementById("storeSearchInput");
+      if (input) {
+        if (input.style.display === "none" || !input.style.display) {
+          input.style.display = "inline-block";
+          input.focus();
+        } else {
+          input.style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
